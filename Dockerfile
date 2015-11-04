@@ -58,4 +58,4 @@ run ln -s /home/fibonemc/fnoc/supervisor-app.conf /etc/supervisor/conf.d/
 
 expose 80
 
-[CMD "supervisord", "-n"]
+cmd ["supervisord", "-n"]

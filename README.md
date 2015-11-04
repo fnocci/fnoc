@@ -6,20 +6,29 @@ where n < 0 it reports an error.  where the URL is totally malformed it reports 
 
 The input is provided in a parameter on the URL; the output is JSON 
 
-## Quick Start and test:
+## Super Quick functional test:
+* git clone https://github.com/fnocci/fnoc
+* pip install flask
+* cd into the directory fnoc
+* run 'python fibon.py'
+* curl localhost:5000
+* curl localhost:5000/fibonacci?n=-1
+* curl localhost:5000/fibonacci?n=10
+
+## Build and Deploy with Docker:
 * git clone https://github.com/fnocci/fnoc
 * cd into top level directory
 * docker build -t fnoc .
 * docker run fnoc 
+* note that this runs fibon.py through uWSGI and nginx
 
-## Some Quick tests on the machine you've started 
-* docker network (to find out the container's ip address, IP)
+## Some Quick tests on the Docker container 
+* run docker network (to find out the container's IP)
 * curl IP
 * curl IP/fibonacci
 * curl IP/fibonacci?n=10
 * curl IP/fibonacci?n=10000
 * curl IP/
-
 
 ## Deployment technology:
 * Flask, uWSGI and Nginx in a single Ubuntu 14.01 LTS  Docker container
@@ -27,18 +36,20 @@ The input is provided in a parameter on the URL; the output is JSON
 * Ubuntu 14.01 LTS because it will have maintenance support until 2019
 * Nginx is a fast standard web server with built in uWSGI protocol support
 * uWSGI benchmarks as the fastest WSGI application container 
-* Flask is a good web services development module and comes with less baggage than Django or Pyramid
+* Flask is a web services development platform with less baggage than Django or Pyramid
 
-Maintenance methodology:
+## Maintenance methodology:
 
-If the OS, uWSGI or Nginx need, e.g. security patches applied
+If the OS, uWSGI or Nginx need, e.g. security patches applied, you can re-build the docker image from scratch
 
 ### re-build from scratch and tag the image
+* modify the application fnoc.py
+* modify the configuration files
+* modify the Dockerfile
 * docker build -t fnoc .
+* docker run fnoc
 
 and redeploy the docker image to the server of choice through, for example, salt
-
-Some ad hoc tests:
 
 References:
 [https://github.com/dockerfiles/django-uwsgi-nginx](https://github.com/dockerfiles/django-uwsgi-nginx)
