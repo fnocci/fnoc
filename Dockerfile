@@ -27,21 +27,22 @@ run apt-get install -y --no-install-recommends \
     supervisor \
     python-dev \
     python \
-    uwsgi \
     git 
 
 run easy_install pip 
+run pip install uwsgi
 run pip install flask 
 
 run mkdir -p /var/log/supervisor
 
-# install fibonics code
-add . /home/docker/fnoc/
+# install fibonics code from this repo
+RUN adduser --disabled-password --gecos '' fibonemc
+add . /home/fibonemc/fnoc/
 
 # setup all the configfiles
 #run rm -f /etc/nginx/sites-enabled/default
-#run ln -s /home/docker/fnoc/nginx-app.conf /etc/nginx/sites-enabled/
-#run ln -s /home/docker/fnoc/supervisor-app.conf /etc/supervisor/conf.d/
+#run ln -s /home/fibonemc/fnoc/nginx-app.conf /etc/nginx/sites-enabled/
+#run ln -s /home/fibonemc/fnoc/supervisor-app.conf /etc/supervisor/conf.d/
 
 expose 80
 cmd ["supervisord", "-n"]
