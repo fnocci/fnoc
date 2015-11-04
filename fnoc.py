@@ -1,4 +1,3 @@
-
 ##############################################################
 # 
 # fnoc.py
@@ -20,18 +19,15 @@ FIBONACCI_SEQ_LIMIT = 20000
 
 from flask import Flask, jsonify, request
 
-app = Flask(__name__)
+fnoc = Flask(__name__)
 
-app.config.from_envvar('FNOC_SETTINGS', silent=True)
+fnoc.config.from_envvar('FNOC_SETTINGS', silent=True)
 
-@app.route("/testfnoc")
+@fnoc.route("/")
+def hello():
+    return "<h1 style='color:blue'>Hello There!</h1>"
 
-# five test cases: n=10, n=-1, no parameter, malformed parameters
-def testfnoc():
-    F10 = {"Fibonacci": [ 0, 1, 1, 2, 3, 5, 8, 13, 21, 34 ] }
-    return "Test Fibonacci!"
-
-@app.route("/fibonacci")
+@fnoc.route("/fibonacci")
 
 def fibonacci():
 
@@ -45,7 +41,7 @@ def fibonacci():
               flist.append(z)
        return flist[0:x] 
 
-    error_message = ""
+    error_message = "None"
 
     try: n = int(request.args.get('n'))
     except: 
@@ -56,12 +52,19 @@ def fibonacci():
         error_message = "requested negative length Fibonacci sequence"
         return(jsonify({'error': error_message}))
 
-    elif n > FIBONACCI_SEQUENCE_LIMIT: 
+    elif n > FIBONACCI_SEQ_LIMIT: 
         error_message = "truncated Fibonacci sequence at 20000"
-        n=FIBONACCI_SEQUENCE_LIMIT
+        n=FIBONACCI_SEQ_LIMIT
 
     return(jsonify({'error': error_message,'Fibonacci':fibons(n)}))
 
+@fnoc.route("/testfnoc")
+
+# five unit test cases: n=10, n=-1, no parameter, malformed parameters
+def testfnoc():
+    F10 = {"Fibonacci": [ 0, 1, 1, 2, 3, 5, 8, 13, 21, 34 ] }
+    return (jsonify(F10))
+
 if __name__ == "__main__":
-    app.run(host='0.0.0.0')
+    fnoc.run(host='0.0.0.0')
 

@@ -1,3 +1,5 @@
+# fnoc Docker modified for the fnoc flask application
+#
 # Copyright 2013 Thatcher Peskens
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +18,7 @@
 
 from ubuntu:14.04
 
-maintainer Dockerfiles
+maintainer fnocci
 
 run apt-get update 
 
@@ -24,25 +26,36 @@ run apt-get install -y --no-install-recommends \
     python-software-properties \
     python-setuptools \
     build-essential \
-    supervisor \
     python-dev \
     python \
+    supervisor \
+    nginx \
     git 
 
 run easy_install pip 
 run pip install uwsgi
 run pip install flask 
 
-run mkdir -p /var/log/supervisor
-
 # install fibonics code from this repo
-RUN adduser --disabled-password --gecos '' fibonemc
 add . /home/fibonemc/fnoc/
 
-# setup all the configfiles
-#run rm -f /etc/nginx/sites-enabled/default
-#run ln -s /home/fibonemc/fnoc/nginx-app.conf /etc/nginx/sites-enabled/
-#run ln -s /home/fibonemc/fnoc/supervisor-app.conf /etc/supervisor/conf.d/
+# and have it be owned by same user that runs nginx
+run chown www-data:www-data /home/fibonemc/fnoc/
+
+#setup the nginx configs more cleanly 
+run echo "daemon off;" >> /etc/nginx/nginx.conf
+run rm /etc/nginx/sites-enabled/default
+run cp /home/fibonemc/fnoc/nginx.conf /etc/nginx/sites-available/nginx-fnoc.conf
+run ln -s /etc/nginx/sites-available/nginx-fnoc.conf /etc/nginx/sites-enabled/nginx-fnoc.conf
+
+# since we've installed uwsgi with pip, need to give it an upstart file 
+# and put its initialization file in the appropriate location
+run cp /home/fibonemc/fnoc/uwsgi.conf /etc/init/uwsgi.conf 
+
+run mkdir -p /etc/uwsgi/sites
+run cp /home/fibonemc/fnoc/uwsgi.ini /etc/uwsgi/sites/uwsgi-fnoc.ini
+run ln -s /home/fibonemc/fnoc/supervisor-app.conf /etc/supervisor/conf.d/
 
 expose 80
-cmd ["supervisord", "-n"]
+
+[CMD "supervisord", "-n"]

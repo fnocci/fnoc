@@ -14,7 +14,7 @@ Maintenance methodology:
 
 If the OS, uWSGI or Nginx need, e.g. security patches applied
 
-### re-build and tag the image
+### re-build from scratch and tag the image
 * docker build -t fnoc .
 
 and redeploy the docker image to the server of choice through, for example, salt
