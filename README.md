@@ -10,7 +10,7 @@ The input is provided in a parameter on the URL; the output is JSON
 * git clone https://github.com/fnocci/fnoc
 * pip install flask
 * cd into the directory fnoc
-* run 'python fibon.py'
+* run 'python fnoc.py'
 * curl localhost:5000
 * curl localhost:5000/fibonacci?n=-1
 * curl localhost:5000/fibonacci?n=10
