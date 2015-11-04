@@ -11,6 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 # forked from https://github.com/dockerfiles/django-uwsgi-nginx
 
 from ubuntu:14.04
