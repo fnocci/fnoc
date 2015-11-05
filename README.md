@@ -15,12 +15,15 @@ The input is provided in a parameter on the URL; the output is JSON
 * curl localhost:5000/fibonacci?n=-1
 * curl localhost:5000/fibonacci?n=10
 
+## Quick Deploy and Test With Docker
+* docker pull fnocci/fnoc:v2
+* docker run fnoc
+
 ## Build and Deploy with Docker:
 * git clone https://github.com/fnocci/fnoc
 * cd into top level directory
 * docker build -t fnoc .
 * docker run fnoc 
-* note that this runs fibon.py through uWSGI and nginx
 
 ## Some Quick tests on the Docker container 
 * run docker network (to find out the container's IP)
