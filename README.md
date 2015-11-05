@@ -17,7 +17,7 @@ The input is provided in a parameter on the URL; the output is JSON
 
 ## Quick Deploy and Test With Docker
 * docker pull fnocci/fnoc:v2
-* docker run fnoc
+* docker run fnocci/fnoc:v2
 
 ## Build and Deploy with Docker:
 * git clone https://github.com/fnocci/fnoc
