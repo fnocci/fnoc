@@ -31,9 +31,9 @@ def hello():
 
 def fibonacci():
 
+    flist = [0, 1, 1] 
     def fibons (x):
        if x < 0: return []
-       flist = [0, 1, 1] 
        y, z = 1,1
        if x >= 2: 
           for i in range (x-2): 
